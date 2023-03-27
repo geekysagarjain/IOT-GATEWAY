@@ -6,7 +6,7 @@ client.connect('35.154.105.25', 1883)
 
 def on_connect(client, userdata, flags, rc):
     print("Connected to a broker!")
-    client.subscribe("LINTANGtopic/test")
+    client.subscribe("connect")
 
 def on_message(client, userdata, message):
     print(message.payload.decode())
