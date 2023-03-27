@@ -3,8 +3,14 @@ import asyncio
 from hbmqtt.broker import Broker
 from hbmqtt.client import MQTTClient, ClientException
 from hbmqtt.mqtt.constants import QOS_1
+from pymongo import MongoClient
+import ast
     
 logger = logging.getLogger(__name__)
+
+client = MongoClient('localhost', 27017) #creating mongodb client connection
+db = client.practice #connecting to the mongodb practice database 
+
 
 @asyncio.coroutine
 def brokerGetMessage():
@@ -18,7 +24,9 @@ def brokerGetMessage():
         for i in range(1,100):
             message = yield from C.deliver_message()
             packet = message.publish_packet
-            print(packet.payload.data.decode('utf-8'))
+            mqtt_received_data=packet.payload.data.decode('utf-8') #decoding the data to string
+            mqtt_jsonified=ast.literal_eval(mqtt_received_data) #converting str to dict
+            print(mqtt_jsonified["node_name"])
     except ClientException as ce:
         logger.error("Client exception : %s" % ce)
 
