@@ -11,6 +11,14 @@ logger = logging.getLogger(__name__)
 client = MongoClient('localhost', 27017) #creating mongodb client connection
 db = client.practice #connecting to the mongodb practice database 
 
+def insertDocumentDb(receivedData, receivedCollection): #to insert a document in the db
+    collection = db[receivedCollection]
+    collection.insert_one(receivedData)
+
+def detectCollection(receivedData):
+    if "node_name" in receivedData:
+        print(receivedData["node_name"])
+
 
 @asyncio.coroutine
 def brokerGetMessage():
@@ -26,7 +34,7 @@ def brokerGetMessage():
             packet = message.publish_packet
             mqtt_received_data=packet.payload.data.decode('utf-8') #decoding the data to string
             mqtt_jsonified=ast.literal_eval(mqtt_received_data) #converting str to dict
-            print(mqtt_jsonified["node_name"])
+            detectCollection(mqtt_jsonified)
     except ClientException as ce:
         logger.error("Client exception : %s" % ce)
 
