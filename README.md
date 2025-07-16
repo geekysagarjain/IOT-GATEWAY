@@ -12,7 +12,7 @@ This repository contains a prototype implementation of an MQTT Gateway, designed
 
 📡 Offline Buffering – Stores messages locally if the broker is unreachable and forwards them when reconnected.
 
-⚙️ Lightweight & Modular – Written in [language/framework you're using], with a modular design for easy customization and extension.
+⚙️ Lightweight & Modular – Written in Python, with a modular design for easy customization and extension.
 
 
 📦 Use Cases
